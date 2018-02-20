@@ -41,7 +41,8 @@ describe BitmapCommandParser do
       expect(BitmapCommandParser.call('I 5 6')).to eq(init)
 
       clear = {
-        method: :clear
+        method: :clear,
+        arguments: nil
       }
       expect(BitmapCommandParser.call('C')).to eq(clear)
 
@@ -78,7 +79,8 @@ describe BitmapCommandParser do
       expect(BitmapCommandParser.call('H 3 5 2 Z')).to eq(horizontal)
 
       show = {
-        method: :to_s
+        method: :to_s,
+        arguments: nil
       }
       expect(BitmapCommandParser.call('S')).to eq(show)
     end
