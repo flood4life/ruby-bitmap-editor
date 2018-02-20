@@ -1,12 +1,29 @@
 class BitmapEditor
   VALUE_RANGE = (1..250)
 
+  attr_reader :width, :width_range, :height, :height_range
+
   def initialize(width:, height:)
     check_argument_type('height', height)
     check_argument_type('width', width)
     check_argument_value('height', height, VALUE_RANGE)
     check_argument_value('width', width, VALUE_RANGE)
 
+    @height = height
+    @width  = width
+
+    @height_range = (1..height)
+    @width_range  = (1..width)
+
+    @bitmap = Array.new(width) { Array.new(height, 'O') }
+  end
+
+  def at(x:, y:)
+    if width_range.cover?(x) && height_range.cover?(y)
+      @bitmap[x - 1][y - 1]
+    else
+      nil
+    end
   end
 
   private
