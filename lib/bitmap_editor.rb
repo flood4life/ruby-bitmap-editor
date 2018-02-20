@@ -23,7 +23,7 @@ class BitmapEditor
 
   def at(x:, y:)
     if width_range.cover?(x) && height_range.cover?(y)
-      @bitmap[x - 1][y - 1]
+      @bitmap[y - 1][x - 1]
     else
       nil
     end
@@ -72,14 +72,21 @@ class BitmapEditor
       internal_set(x, y, color)
     end
   end
+
+  def to_s
+    @bitmap.map do |row|
+      row.join(" ")
+    end.join("\n") + "\n"
+  end
+
   private
 
   def new_bitmap(width:, height:)
-    Array.new(width) { Array.new(height, 'O') }
+    Array.new(height) { Array.new(width, 'O') }
   end
 
   def internal_set(x, y, color)
-    @bitmap[x - 1][y - 1] = color
+    @bitmap[y - 1][x - 1] = color
   end
 
   def check_argument_type(name, value, klass)
