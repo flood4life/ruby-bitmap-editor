@@ -8,12 +8,12 @@ describe BitmapEditor do
       let(:biggest_editor) { BitmapEditor.new(width: 250, height: 250) }
 
       it 'creates an M x N image' do
-        expect(subject.at(x: 3, y: 4)).to exist
-        expect(subject.at(x: 4, y: 3)).to_not exist
-        expect(biggest_editor.at(x: 250, y: 250)).to exist
+        expect(subject.at(x: 3, y: 4)).to_not be_nil
+        expect(subject.at(x: 4, y: 3)).to be_nil
+        expect(biggest_editor.at(x: 250, y: 250)).to_not be_nil
       end
       it 'starts coordinates from 1' do
-        expect(subject.at(x: 0, y: 0)).to_not exist
+        expect(subject.at(x: 0, y: 0)).to be_nil
       end
       it 'creates a totally white (O) image' do
         expect(subject.at(x: 1, y: 1)).to eq('O')
