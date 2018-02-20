@@ -261,4 +261,94 @@ describe BitmapEditor do
       end
     end
   end
+
+  describe '#draw_horizontal_line' do
+    describe 'when input is correct' do
+      it 'changes color for bits in row Y between columns X1 and X2 inclusively' do
+        expect(subject.at(x: 1, y: 1)).to eq('O')
+        expect(subject.at(x: 2, y: 1)).to eq('O')
+        expect(subject.at(x: 3, y: 1)).to eq('O')
+        expect(subject.at(x: 1, y: 2)).to eq('O')
+        subject.draw_horizontal_line(x1: 1, x2: 2, y: 1, color: 'A')
+        expect(subject.at(x: 1, y: 1)).to eq('A')
+        expect(subject.at(x: 2, y: 1)).to eq('A')
+        expect(subject.at(x: 3, y: 1)).to eq('O')
+        expect(subject.at(x: 1, y: 2)).to eq('O')
+      end
+    end
+
+    describe 'when input is not correct' do
+      describe 'when x1, x2 or y is not an Integer' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_horizontal_line(x1: '1', x2: 1, y: 1, color: 'A')
+          }.to raise_error(ArgumentError, "X1 (1:String) is not an Integer")
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: '1', y: 1, color: 'A')
+          }.to raise_error(ArgumentError, "X2 (1:String) is not an Integer")
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: 1, y: '1', color: 'A')
+          }.to raise_error(ArgumentError, "Y (1:String) is not an Integer")
+        end
+      end
+      describe 'when x1, x2 or y is not in range' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_horizontal_line(x1: 4, x2: 1, y: 1, color: 'A')
+          }.to raise_error(ArgumentError, "X1 (4) is greater than 3")
+          expect {
+            subject.draw_horizontal_line(x1: 0, x2: 1, y: 1, color: 'A')
+          }.to raise_error(ArgumentError, "X1 (0) is less than 1")
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: 5, y: 1, color: 'A')
+          }.to raise_error(ArgumentError, "X2 (4) is greater than 3")
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: 2, y: 5, color: 'A')
+          }.to raise_error(ArgumentError, "Y (5) is greater than 4")
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: 1, y2: 0, color: 'A')
+          }.to raise_error(ArgumentError, "Y (0) is less than 1")
+        end
+      end
+      describe 'when x2 is less than x1' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_horizontal_line(x1: 2, x2: 1, y: 1, color: 'A')
+          }.to raise_error(ArgumentError, "X2 (1) is less than X1 (2)")
+        end
+      end
+      describe 'when color is not a String' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: 2, y: 1, color: 1)
+          }.to raise_error(ArgumentError, "Color (1:Fixnum) is not a String")
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: 2, y: 1, color: [1])
+          }.to raise_error(ArgumentError, "Color ([1]:Array) is not a String")
+        end
+      end
+
+      describe 'when color is not a capital letter' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: 2, y: 1, color: 'c')
+          }.to raise_error(ArgumentError, "Color (c) is not a capital letter")
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: 2, y: 1, color: '0')
+          }.to raise_error(ArgumentError, "Color (0) is not a capital letter")
+        end
+      end
+
+      describe 'when color contains not exactly 1 character' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: 2, y: 1, color: '')
+          }.to raise_error(ArgumentError, "Color () is not a single character")
+          expect {
+            subject.draw_horizontal_line(x1: 1, x2: 2, y: 1, color: 'AB')
+          }.to raise_error(ArgumentError, "Color (AB) is not a single character")
+        end
+      end
+    end
+  end
 end
