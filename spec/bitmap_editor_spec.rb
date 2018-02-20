@@ -146,6 +146,17 @@ describe BitmapEditor do
           }.to raise_error(ArgumentError, "Color (0) is not a capital letter")
         end
       end
+
+      describe 'when color contains not exactly 1 character' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.set(x: 1, y: 1, color: '')
+          }.to raise_error(ArgumentError, "Color () is not a single character")
+          expect {
+            subject.set(x: 1, y: 1, color: 'AB')
+          }.to raise_error(ArgumentError, "Color (AB) is not a single character")
+        end
+      end
     end
   end
 
