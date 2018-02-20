@@ -36,6 +36,7 @@ class BitmapEditor
     check_argument_value('x', x, width_range)
     check_argument_value('y', y, height_range)
     check_color_value(color, COLOR_RANGE)
+    @bitmap[x - 1][y - 1] = color
   end
 
   private
