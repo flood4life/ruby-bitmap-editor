@@ -170,4 +170,95 @@ describe BitmapEditor do
     end
   end
 
+  describe '#draw_vertical_line' do
+    describe 'when input is correct' do
+      it 'changes color for bits in column X between rows Y1 and Y2 inclusively' do
+        expect(subject.at(x: 1, y: 1)).to eq('O')
+        expect(subject.at(x: 2, y: 1)).to eq('O')
+        expect(subject.at(x: 1, y: 2)).to eq('O')
+        expect(subject.at(x: 1, y: 3)).to eq('O')
+        expect(subject.at(x: 1, y: 4)).to eq('O')
+        subject.draw_vertical_line(x: 1, y1: 1, y2: 3, color: 'A')
+        expect(subject.at(x: 1, y: 1)).to eq('A')
+        expect(subject.at(x: 2, y: 1)).to eq('O')
+        expect(subject.at(x: 1, y: 2)).to eq('A')
+        expect(subject.at(x: 1, y: 3)).to eq('A')
+        expect(subject.at(x: 1, y: 4)).to eq('O')
+      end
+    end
+
+    describe 'when input is not correct' do
+      describe 'when x, y1 or y2 is not an Integer' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_vertical_line(x: '1', y1: 1, y2: 1, color: 'A')
+          }.to raise_error(ArgumentError, "X (1:String) is not an Integer")
+          expect {
+            subject.draw_vertical_line(x: 1, y1: '1', y2: 1, color: 'A')
+          }.to raise_error(ArgumentError, "Y1 (1:String) is not an Integer")
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 1, y2: '1', color: 'A')
+          }.to raise_error(ArgumentError, "Y2 (1:String) is not an Integer")
+        end
+      end
+      describe 'when x, y1 or y2 is not in range' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_vertical_line(x: 4, y1: 1, y2: 1, color: 'A')
+          }.to raise_error(ArgumentError, "X (4) is greater than 3")
+          expect {
+            subject.draw_vertical_line(x: 0, y1: 1, y2: 1, color: 'A')
+          }.to raise_error(ArgumentError, "X (0) is less than 1")
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 5, y2: 5, color: 'A')
+          }.to raise_error(ArgumentError, "Y1 (5) is greater than 4")
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 4, y2: 5, color: 'A')
+          }.to raise_error(ArgumentError, "Y2 (5) is greater than 4")
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 0, y2: 1, color: 'A')
+          }.to raise_error(ArgumentError, "Y1 (0) is less than 1")
+        end
+      end
+      describe 'when y2 is less than y1' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 2, y2: 1, color: 'A')
+          }.to raise_error(ArgumentError, "Y2 (1) is less than Y1 (2)")
+        end
+      end
+      describe 'when color is not a String' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 2, y2: 1, color: 1)
+          }.to raise_error(ArgumentError, "Color (1:Fixnum) is not a String")
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 2, y2: 1, color: [1])
+          }.to raise_error(ArgumentError, "Color ([1]:Array) is not a String")
+        end
+      end
+
+      describe 'when color is not a capital letter' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 2, y2: 1, color: 'c')
+          }.to raise_error(ArgumentError, "Color (c) is not a capital letter")
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 2, y2: 1, color: '0')
+          }.to raise_error(ArgumentError, "Color (0) is not a capital letter")
+        end
+      end
+
+      describe 'when color contains not exactly 1 character' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 2, y2: 1, color: '')
+          }.to raise_error(ArgumentError, "Color () is not a single character")
+          expect {
+            subject.draw_vertical_line(x: 1, y1: 2, y2: 1, color: 'AB')
+          }.to raise_error(ArgumentError, "Color (AB) is not a single character")
+        end
+      end
+    end
+  end
 end
