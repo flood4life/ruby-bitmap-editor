@@ -351,4 +351,34 @@ describe BitmapEditor do
       end
     end
   end
+
+  describe "#to_s" do
+    it 'shows a correct string representation of the bitmap' do
+      clean_3_by_4 = <<-map
+O O O
+O O O
+O O O
+O O O
+      map
+      expect(subject.to_s).to eq(clean_3_by_4)
+
+      first_column_a = <<-map
+A O O
+A O O
+A O O
+A O O
+      map
+      subject.draw_vertical_line(x: 1, y1: 1, y2: 4, color: 'A')
+      expect(subject.to_s).to eq(first_column_a)
+
+      first_row_b = <<-map
+B B B
+A O O
+A O O
+A O O
+      map
+      subject.draw_horizontal_line(x1: 1, x2: 3, y: 1, color: 'B')
+      expect(subject.to_s).to eq(first_row_b)
+    end
+  end
 end
