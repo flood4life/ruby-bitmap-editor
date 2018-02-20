@@ -36,7 +36,7 @@ class BitmapEditor
     check_argument_value('x', x, width_range)
     check_argument_value('y', y, height_range)
     check_color_value(color, COLOR_RANGE)
-    @bitmap[x - 1][y - 1] = color
+    internal_set(x, y, color)
   end
 
   def clear
@@ -53,12 +53,19 @@ class BitmapEditor
     check_argument_value('y2', y2, height_range)
     check_color_value(color, COLOR_RANGE)
     check_two_arguments_relation('y1', y1, 'y2', y2)
+    (y1..y2).each do |y|
+      internal_set(x, y, color)
+    end
   end
 
   private
 
   def new_bitmap(width:, height:)
     Array.new(width) { Array.new(height, 'O') }
+  end
+
+  def internal_set(x, y, color)
+    @bitmap[x - 1][y - 1] = color
   end
 
   def check_argument_type(name, value, klass)
