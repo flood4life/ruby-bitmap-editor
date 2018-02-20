@@ -1,4 +1,4 @@
-require 'bitmap_editor'
+require_relative './bitmap_editor'
 
 class BitmapCommandExecutor
   attr_reader :editor

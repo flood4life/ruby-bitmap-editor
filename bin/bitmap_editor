@@ -1,4 +1,9 @@
 #!/usr/bin/env ruby
-require './lib/bitmap_editor'
+require_relative '../lib/bitmap_command_executor'
+require_relative '../lib/bitmap_command_parser'
 
-BitmapEditor.new.run ARGV.first
+executor = BitmapCommandExecutor.new
+File.readlines(ARGV.first).each do |line|
+  parsed = BitmapCommandParser.call(line)
+  executor.call(parsed)
+end
