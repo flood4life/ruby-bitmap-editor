@@ -43,6 +43,18 @@ class BitmapEditor
     @bitmap = new_bitmap(width: width, height: height)
   end
 
+  def draw_vertical_line(x:, y1:, y2:, color:)
+    check_argument_type('x', x, Integer)
+    check_argument_type('y1', y1, Integer)
+    check_argument_type('y2', y2, Integer)
+    check_argument_type('color', color, String)
+    check_argument_value('x', x, width_range)
+    check_argument_value('y1', y1, height_range)
+    check_argument_value('y2', y2, height_range)
+    check_color_value(color, COLOR_RANGE)
+    check_two_arguments_relation('y1', y1, 'y2', y2)
+  end
+
   private
 
   def new_bitmap(width:, height:)
@@ -68,6 +80,12 @@ class BitmapEditor
       raise ArgumentError, "Color (#{value}) is not a single character"
     elsif !range.include?(value)
       raise ArgumentError, "Color (#{value}) is not a capital letter"
+    end
+  end
+
+  def check_two_arguments_relation(name1, value1, name2, value2)
+    if value2 < value1
+      raise ArgumentError, "#{name2.capitalize} (#{value2}) is less than #{name1.capitalize} (#{value1})"
     end
   end
 
