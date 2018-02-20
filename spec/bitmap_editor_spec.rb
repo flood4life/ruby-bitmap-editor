@@ -28,11 +28,11 @@ describe BitmapEditor do
         it 'raises an ArgumentError' do
           expect {
             too_wide
-          }.to raise_error(ArgumentError, "Width (251) is bigger than 250")
+          }.to raise_error(ArgumentError, "Width (251) is greater than 250")
 
           expect {
             too_long
-          }.to raise_error(ArgumentError, "Height (251) is bigger than 250")
+          }.to raise_error(ArgumentError, "Height (251) is greater than 250")
         end
       end
 
@@ -45,16 +45,16 @@ describe BitmapEditor do
         it 'raises an ArgumentError' do
           expect {
             zero_width
-          }.to raise_error(ArgumentError, "Width (0) is lower than 1")
+          }.to raise_error(ArgumentError, "Width (0) is less than 1")
           expect {
             zero_height
-          }.to raise_error(ArgumentError, "Height (0) is lower than 1")
+          }.to raise_error(ArgumentError, "Height (0) is less than 1")
           expect {
             negative_width
-          }.to raise_error(ArgumentError, "Width (-1) is lower than 1")
+          }.to raise_error(ArgumentError, "Width (-1) is less than 1")
           expect {
             negative_height
-          }.to raise_error(ArgumentError, "Height (-1) is lower than 1")
+          }.to raise_error(ArgumentError, "Height (-1) is less than 1")
         end
       end
 
@@ -82,4 +82,71 @@ describe BitmapEditor do
 
     end
   end
+
+  describe '#set' do
+    describe 'when input is correct' do
+      it 'changes the appropriate bit' do
+        expect(subject.at(x: 1, y: 1)).to eq('O')
+        expect(subject.at(x: 3, y: 4)).to eq('O')
+        subject.set(x: 1, y: 1, color: 'C')
+        subject.set(x: 3, y: 4, color: 'L')
+        expect(subject.at(x: 1, y: 1)).to eq('C')
+        expect(subject.at(x: 3, y: 4)).to eq('L')
+      end
+    end
+
+    describe 'when input is not correct' do
+      describe 'when x or y is not an Integer' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.set(x: '1', y: 1, color: 'C')
+          }.to raise_error(ArgumentError, "X (1:String) is not an Integer")
+          expect {
+            subject.set(x: 1, y: '1', color: 'C')
+          }.to raise_error(ArgumentError, "Y (1:String) is not an Integer")
+        end
+      end
+
+      describe 'when x or y is not in range' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.set(x: 0, y: 1, color: 'C')
+          }.to raise_error(ArgumentError, "X (0) is less than 1")
+          expect {
+            subject.set(x: 1, y: 0, color: 'C')
+          }.to raise_error(ArgumentError, "Y (0) is less than 1")
+          expect {
+            subject.set(x: 4, y: 1, color: 'C')
+          }.to raise_error(ArgumentError, "X (4) is greater than 3")
+          expect {
+            subject.set(x: 1, y: 5, color: 'C')
+          }.to raise_error(ArgumentError, "Y (5) is greater than 4")
+        end
+      end
+
+
+      describe 'when color is not a String' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.set(x: 1, y: 1, color: 1)
+          }.to raise_error(ArgumentError, "Color (1:Fixnum) is not a String")
+          expect {
+            subject.set(x: 1, y: 1, color: [1])
+          }.to raise_error(ArgumentError, "Color ([1]:Array) is not a String")
+        end
+      end
+
+      describe 'when color is not a capital letter' do
+        it 'raises an ArgumentError' do
+          expect {
+            subject.set(x: 1, y: 1, color: 'c')
+          }.to raise_error(ArgumentError, "Color (c) is not a capital letter")
+          expect {
+            subject.set(x: 1, y: 1, color: '0')
+          }.to raise_error(ArgumentError, "Color (0) is not a capital letter")
+        end
+      end
+    end
+  end
+
 end

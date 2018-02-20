@@ -36,9 +36,9 @@ class BitmapEditor
 
   def check_argument_value(name, value, range)
     if value < range.first
-      raise ArgumentError, value_error_message(name, value, range.first, 'lower')
+      raise ArgumentError, value_error_message(name, value, range.first, 'less')
     elsif value > range.last
-      raise ArgumentError, value_error_message(name, value, range.last, 'bigger')
+      raise ArgumentError, value_error_message(name, value, range.last, 'greater')
     end
   end
 
