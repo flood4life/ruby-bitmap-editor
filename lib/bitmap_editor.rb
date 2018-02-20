@@ -18,7 +18,7 @@ class BitmapEditor
     @height_range = (1..height)
     @width_range  = (1..width)
 
-    @bitmap = Array.new(width) { Array.new(height, 'O') }
+    @bitmap = new_bitmap(width: width, height: height)
   end
 
   def at(x:, y:)
@@ -39,7 +39,15 @@ class BitmapEditor
     @bitmap[x - 1][y - 1] = color
   end
 
+  def clear
+    @bitmap = new_bitmap(width: width, height: height)
+  end
+
   private
+
+  def new_bitmap(width:, height:)
+    Array.new(width) { Array.new(height, 'O') }
+  end
 
   def check_argument_type(name, value, klass)
     unless value.is_a?(klass)
