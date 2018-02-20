@@ -28,11 +28,11 @@ describe BitmapEditor do
         it 'raises an ArgumentError' do
           expect {
             too_wide
-          }.to raise_error(ArgumentError, /Width (251) is bigger than 250/)
+          }.to raise_error(ArgumentError, "Width (251) is bigger than 250")
 
           expect {
             too_long
-          }.to raise_error(ArgumentError, /Height (251) is bigger than 250/)
+          }.to raise_error(ArgumentError, "Height (251) is bigger than 250")
         end
       end
 
@@ -45,16 +45,16 @@ describe BitmapEditor do
         it 'raises an ArgumentError' do
           expect {
             zero_width
-          }.to raise_error(ArgumentError, /Width (0) is lower than 1/)
+          }.to raise_error(ArgumentError, "Width (0) is lower than 1")
           expect {
             zero_height
-          }.to raise_error(ArgumentError, /Height (0) is lower than 1/)
+          }.to raise_error(ArgumentError, "Height (0) is lower than 1")
           expect {
             negative_width
-          }.to raise_error(ArgumentError, /Width (-1) is lower than 1/)
+          }.to raise_error(ArgumentError, "Width (-1) is lower than 1")
           expect {
             negative_height
-          }.to raise_error(ArgumentError, /Height (-1) is lower than 1/)
+          }.to raise_error(ArgumentError, "Height (-1) is lower than 1")
         end
       end
 
@@ -67,16 +67,16 @@ describe BitmapEditor do
         it 'raises an ArgumentError' do
           expect {
             string_width
-          }.to raise_error(ArgumentError, /Width (1:String) is not an Integer/)
+          }.to raise_error(ArgumentError, "Width (1:String) is not an Integer")
           expect {
             string_height
-          }.to raise_error(ArgumentError, /Height (1:String) is not an Integer/)
+          }.to raise_error(ArgumentError, "Height (1:String) is not an Integer")
           expect {
             float_width
-          }.to raise_error(ArgumentError, /Width (1.0:Float) is not an Integer/)
+          }.to raise_error(ArgumentError, "Width (1.0:Float) is not an Integer")
           expect {
             float_height
-          }.to raise_error(ArgumentError, /Height (1.0:Float) is not an Integer/)
+          }.to raise_error(ArgumentError, "Height (1.0:Float) is not an Integer")
         end
       end
 
