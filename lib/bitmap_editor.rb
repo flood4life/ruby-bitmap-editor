@@ -58,6 +58,20 @@ class BitmapEditor
     end
   end
 
+  def draw_horizontal_line(x1:, x2:, y:, color:)
+    check_argument_type('x1', x1, Integer)
+    check_argument_type('x2', x2, Integer)
+    check_argument_type('y', y, Integer)
+    check_argument_type('color', color, String)
+    check_argument_value('x1', x1, width_range)
+    check_argument_value('x2', x2, width_range)
+    check_argument_value('y', y, height_range)
+    check_color_value(color, COLOR_RANGE)
+    check_two_arguments_relation('x1', x1, 'x2', x2)
+    (x1..x2).each do |x|
+      internal_set(x, y, color)
+    end
+  end
   private
 
   def new_bitmap(width:, height:)
