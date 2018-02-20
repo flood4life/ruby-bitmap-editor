@@ -300,13 +300,13 @@ describe BitmapEditor do
             subject.draw_horizontal_line(x1: 0, x2: 1, y: 1, color: 'A')
           }.to raise_error(ArgumentError, "X1 (0) is less than 1")
           expect {
-            subject.draw_horizontal_line(x1: 1, x2: 5, y: 1, color: 'A')
+            subject.draw_horizontal_line(x1: 1, x2: 4, y: 1, color: 'A')
           }.to raise_error(ArgumentError, "X2 (4) is greater than 3")
           expect {
             subject.draw_horizontal_line(x1: 1, x2: 2, y: 5, color: 'A')
           }.to raise_error(ArgumentError, "Y (5) is greater than 4")
           expect {
-            subject.draw_horizontal_line(x1: 1, x2: 1, y2: 0, color: 'A')
+            subject.draw_horizontal_line(x1: 1, x2: 1, y: 0, color: 'A')
           }.to raise_error(ArgumentError, "Y (0) is less than 1")
         end
       end
