@@ -3,6 +3,33 @@ require_relative '../lib/bitmap_command_parser'
 
 describe BitmapCommandParser do
   describe 'self.call' do
+    it 'raises an ArgumentError if command letter is unknown' do
+      expect {
+        BitmapCommandParser.call('A')
+      }.to raise_error(ArgumentError, "Unknown command (A)")
+    end
+
+    it 'raises an ArgumentError is the number of command arguments is wrong' do
+      expect {
+        BitmapCommandParser.call('I 5')
+      }.to raise_error(ArgumentError, "Expected 2 arguments for command I, got 1")
+      expect {
+        BitmapCommandParser.call('C 5')
+      }.to raise_error(ArgumentError, "Expected 0 arguments for command C, got 1")
+      expect {
+        BitmapCommandParser.call('L 5')
+      }.to raise_error(ArgumentError, "Expected 3 arguments for command L, got 1")
+      expect {
+        BitmapCommandParser.call('V 5')
+      }.to raise_error(ArgumentError, "Expected 4 arguments for command V, got 1")
+      expect {
+        BitmapCommandParser.call('H 5')
+      }.to raise_error(ArgumentError, "Expected 4 arguments for command H, got 1")
+      expect {
+        BitmapCommandParser.call('S 5')
+      }.to raise_error(ArgumentError, "Expected 0 arguments for command S, got 1")
+    end
+
     it 'transforms a single line into a method name and a hash of arguments' do
       init = {
         method:    :new,
