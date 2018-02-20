@@ -83,6 +83,16 @@ describe BitmapEditor do
     end
   end
 
+  describe '#clear' do
+    it "resets the bitmap to all 'O's" do
+      expect(subject.at(x: 1, y: 1)).to eq('O')
+      subject.set(x: 1, y: 1, color: 'A')
+      expect(subject.at(x: 1, y: 1)).to eq('A')
+      subject.clear
+      expect(subject.at(x: 1, y: 1)).to eq('O')
+    end
+  end
+
   describe '#set' do
     describe 'when input is correct' do
       it 'changes the appropriate bit' do
