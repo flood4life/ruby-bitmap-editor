@@ -88,10 +88,10 @@ describe BitmapEditor do
       it 'changes the appropriate bit' do
         expect(subject.at(x: 1, y: 1)).to eq('O')
         expect(subject.at(x: 3, y: 4)).to eq('O')
-        subject.set(x: 1, y: 1, color: 'C')
-        subject.set(x: 3, y: 4, color: 'L')
-        expect(subject.at(x: 1, y: 1)).to eq('C')
-        expect(subject.at(x: 3, y: 4)).to eq('L')
+        subject.set(x: 1, y: 1, color: 'A')
+        subject.set(x: 3, y: 4, color: 'Z')
+        expect(subject.at(x: 1, y: 1)).to eq('A')
+        expect(subject.at(x: 3, y: 4)).to eq('Z')
       end
     end
 
